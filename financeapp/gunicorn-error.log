@@ -1,0 +1,506 @@
+[2025-11-05 18:37:42 +0000] [788201] [INFO] Starting gunicorn 23.0.0
+[2025-11-05 18:37:42 +0000] [788201] [INFO] Listening at: unix:/home/financeguru/apps/financeapp/financeapp.sock (788201)
+[2025-11-05 18:37:42 +0000] [788201] [INFO] Using worker: sync
+[2025-11-05 18:37:42 +0000] [788203] [INFO] Booting worker with pid: 788203
+[2025-11-05 18:37:42 +0000] [788204] [INFO] Booting worker with pid: 788204
+[2025-11-05 18:37:42 +0000] [788205] [INFO] Booting worker with pid: 788205
+[2025-11-05 18:37:42 +0000] [783322] [INFO] Worker exiting (pid: 783322)
+[2025-11-05 18:37:42 +0000] [783324] [INFO] Worker exiting (pid: 783324)
+[2025-11-05 18:37:42 +0000] [783320] [INFO] Handling signal: term
+[2025-11-05 18:37:42 +0000] [783323] [INFO] Worker exiting (pid: 783323)
+[2025-11-05 18:37:42 +0000] [783320] [ERROR] Worker (pid:783324) was sent SIGTERM!
+[2025-11-05 18:37:42 +0000] [783320] [INFO] Shutting down: Master
+as sent SIGTERM!
+[2025-11-05 03:13:16 +0000] [782818] [ERROR] Worker (pid:782823) was sent SIGTERM!
+[2025-11-05 03:13:16 +0000] [782818] [INFO] Shutting down: Master
+on3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/financeguru/apps/financeapp/mainpage/views.py", line 14, in index
+    return render(request,'index.html')
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 567, in invalid_block_tag
+    raise self.error(
+    ...<8 lines>...
+    )
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 24: 'static', expected 'endblock'. Did you forget to register or load this tag?
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 510, in parse
+    compile_func = self.tags[command]
+                   ~~~~~~~~~^^^^^^^^^
+KeyError: 'static'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/financeguru/apps/financeapp/mainpage/views.py", line 14, in index
+    return render(request,'index.html')
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 567, in invalid_block_tag
+    raise self.error(
+    ...<8 lines>...
+    )
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 24: 'static', expected 'endblock'. Did you forget to register or load this tag?
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 510, in parse
+    compile_func = self.tags[command]
+                   ~~~~~~~~~^^^^^^^^^
+KeyError: 'static'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/financeguru/apps/financeapp/mainpage/views.py", line 14, in index
+    return render(request,'index.html')
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 567, in invalid_block_tag
+    raise self.error(
+    ...<8 lines>...
+    )
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 24: 'static', expected 'endblock'. Did you forget to register or load this tag?
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 510, in parse
+    compile_func = self.tags[command]
+                   ~~~~~~~~~^^^^^^^^^
+KeyError: 'static'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/financeguru/apps/financeapp/mainpage/views.py", line 14, in index
+    return render(request,'index.html')
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/template/base.py", line 567, in invalid_block_tag
+    raise self.error(
+    ...<8 lines>...
+    )
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 24: 'static', expected 'endblock'. Did you forget to register or load this tag?
+Not Found: /favicon.ico
+Not Found: /cgi-bin/luci/;stok=/locale
+Not Found: /wp-admin/setup-config.php
+Not Found: /wordpress/wp-admin/setup-config.php
+Not Found: /wordpress/wp-admin/setup-config.php
+Not Found: /wp-admin/setup-config.php
+Not Found: /actuator/gateway/routes
+Not Found: /user/umi.min.js
+Not Found: /.env
+Not Found: /favicon.ico
+Not Found: /db/dbadmin/index.php
+Not Found: /phpMyAdmin-3/index.php
+Not Found: /sql/sql-admin/index.php
+Not Found: /phpMyAdmin-5.2.0-all-languages/index.php
+Not Found: /administrator/PMA/index.php
+Not Found: /actuator/gateway/routes
+Not Found: /robots.txt
+Not Found: /+CSCOE+/logon.html
+Not Found: /robots.txt
+Not Found: /favicon.ico
+Not Found: /sitemap.xml
+Not Found: /sitemap.xml
+Not Found: /config.json
+Not Found: /favicon.ico
+Not Found: /robots.txt
+Not Found: /sitemap.xml
+Not Found: /config.json
+Not Found: /wp-admin/setup-config.php
+Not Found: /wordpress/wp-admin/setup-config.php
+Not Found: /wordpress/wp-admin/setup-config.php
+Not Found: /wp-admin/setup-config.php
+Not Found: /cgi-bin/luci/;stok=/locale
+Not Found: /webui
+Not Found: /webui
+Not Found: /owa/
+Not Found: /owa/
+Not Found: /owa/
+Not Found: /owa/
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Not Found: /cgi-bin/luci/;stok=/locale
+Not Found: /wordpress/wp-admin/setup-config.php
+Not Found: /wordpress/wp-admin/setup-config.php
+Not Found: /wp-admin/setup-config.php
+Not Found: /wp-admin/setup-config.php
+Not Found: /favicon.ico
+Not Found: /sqlmanager/index.php
+Not Found: /phpMyAdmin-4.9.10-all-languages/index.php
+Not Found: /program/index.php
+Not Found: /phpMyAdmin-3/index.php
+Not Found: /phpMyAdmin5/index.php
+Not Found: /db/phpmyadmin4/index.php
+Not Found: /php-myadmin/index.php
+Not Found: /sql/phpmyadmin3/index.php
+Not Found: /phpMyadmin/index.php
+Not Found: /phpMyAdmin_/index.php
+Not Found: /sql/sqladmin/index.php
+Not Found: /administrator/phpMyAdmin/index.php
+Not Found: /phpmyadmin2/index.php
+Not Found: /dbadmin/index.php
+Not Found: /db/dbadmin/index.php
+Not Found: /sql/phpMyAdmin2/index.php
+Not Found: /administrator/PMA/index.php
+Not Found: /sql/sql-admin/index.php
+Not Found: /db/phpmyadmin/index.php
+Not Found: /_phpmyadmin/index.php
+Not Found: /phpmyadmin2022/index.php
+Not Found: /mysql/pMA/index.php
+Not Found: /sql/myadmin/index.php
+Not Found: /sql/phpMyAdmin/index.php
+Not Found: /db/db-admin/index.php
+Not Found: /robots.txt
+Not Found: /favicon.ico
+Not Found: /webapps/technician/
+Not Found: /actuator/gateway/routes
+Not Found: /webapps/technician/
+Not Found: /wordpress/wp-admin/setup-config.php
+Not Found: /wordpress/wp-admin/setup-config.php
+Not Found: /wp-admin/setup-config.php
+Not Found: /wp-admin/setup-config.php
+Not Found: /favicon.ico
+Not Found: /sitemap.xml
+Not Found: /robots.txt
+Not Found: /sitemap.xml
+Not Found: /.env
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Internal Server Error: /signup/
+Traceback (most recent call last):
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/backends/postgresql/base.py", line 332, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "db.amxqjclhuukzijhlxtsa.supabase.co" (2600:1f16:1cd0:333c:4573:87f:a3e5:ddf7), port 5432 failed: Network is unreachable
+	Is the server running on that host and accepting TCP/IP connections?
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/financeguru/apps/financeapp/mainpage/views.py", line 31, in signup
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/forms/forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/forms/forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/forms/forms.py", line 337, in full_clean
+    self._clean_fields()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/forms/forms.py", line 347, in _clean_fields
+    value = getattr(self, "clean_%s" % name)()
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/contrib/auth/forms.py", line 277, in clean_username
+    and self._meta.model.objects.filter(username__iexact=username).exists()
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/models/query.py", line 1296, in exists
+    return self.query.has_results(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/models/sql/query.py", line 674, in has_results
+    return compiler.has_results()
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/models/sql/compiler.py", line 1591, in has_results
+    return bool(self.execute_sql(SINGLE))
+                ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/models/sql/compiler.py", line 1621, in execute_sql
+    cursor = self.connection.cursor()
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/backends/base/base.py", line 320, in cursor
+    return self._cursor()
+           ~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/backends/base/base.py", line 296, in _cursor
+    self.ensure_connection()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/backends/base/base.py", line 278, in ensure_connection
+    with self.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/django/db/backends/postgresql/base.py", line 332, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+  File "/home/financeguru/apps/financeapp/env/lib/python3.13/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+django.db.utils.OperationalError: connection to server at "db.amxqjclhuukzijhlxtsa.supabase.co" (2600:1f16:1cd0:333c:4573:87f:a3e5:ddf7), port 5432 failed: Network is unreachable
+	Is the server running on that host and accepting TCP/IP connections?
+
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Not Found: /webapps/technician/
+Not Found: //wp-includes/wlwmanifest.xml
+Not Found: //xmlrpc.php
+Not Found: //blog/wp-includes/wlwmanifest.xml
+Not Found: //web/wp-includes/wlwmanifest.xml
+Not Found: //wordpress/wp-includes/wlwmanifest.xml
+Not Found: //website/wp-includes/wlwmanifest.xml
+Not Found: //wp/wp-includes/wlwmanifest.xml
+Not Found: //news/wp-includes/wlwmanifest.xml
+Not Found: //2018/wp-includes/wlwmanifest.xml
+Not Found: //2019/wp-includes/wlwmanifest.xml
+Not Found: //shop/wp-includes/wlwmanifest.xml
+Not Found: //wp1/wp-includes/wlwmanifest.xml
+Not Found: //test/wp-includes/wlwmanifest.xml
+Not Found: //media/wp-includes/wlwmanifest.xml
+Not Found: //wp2/wp-includes/wlwmanifest.xml
+Not Found: //site/wp-includes/wlwmanifest.xml
+Not Found: //cms/wp-includes/wlwmanifest.xml
+Not Found: //sito/wp-includes/wlwmanifest.xml
+Not Found: /wordpress/wp-admin/setup-config.php
+Not Found: /wp-admin/setup-config.php
+Not Found: /wordpress/wp-admin/setup-config.php
+Not Found: /wp-admin/setup-config.php
+Not Found: /actuator/gateway/routes
+Not Found: /sslvpn_logon.shtml
+Not Found: /phpinfo.php
+Not Found: /info.php
+Not Found: /phpinfo
+Not Found: /php_info.php
+Not Found: /test.php
+Not Found: /_profiler/phpinfo
+Not Found: /.env
+Not Found: /config/.env
+Not Found: /.env.production
+Not Found: /.env.local
+Not Found: /api/shared/config/config.env
+Not Found: /api/.env
+Not Found: /favicon.ico
+Not Found: /wp-admin/setup-config.php
+Not Found: /wp-admin/setup-config.php
+Not Found: /wordpress/wp-admin/setup-config.php
+Not Found: /wordpress/wp-admin/setup-config.php
+Not Found: /favicon.ico
+Not Found: /robots.txt
+Not Found: /.well-known/security.txt
+Not Found: /sitemap.xml
+Not Found: /llms.txt
+Not Found: /.git/config
+Not Found: /favicon.ico
+Not Found: /sitemap.xml
+Not Found: /robots.txt
+Not Found: /sitemap.xml
+Not Found: /cgi-bin/luci/;stok=/locale
+Not Found: /js/twint_ch.js
+Not Found: /js/lkk_ch.js
+Not Found: /css/support_parent.css
+Not Found: /cgi-bin/luci/;stok=/locale
+Not Found: /css/support_parent.css
+Not Found: /js/twint_ch.js
+Not Found: /webapps/technician/
+Not Found: /apple-touch-icon-precomposed.png
+Not Found: /apple-touch-icon.png
+Not Found: /favicon.ico
+[2025-11-05 01:05:49 +0000] [642378] [INFO] Handling signal: term
+[2025-11-05 01:05:49 +0000] [642379] [INFO] Worker exiting (pid: 642379)
+[2025-11-05 01:05:49 +0000] [642380] [INFO] Worker exiting (pid: 642380)
+[2025-11-05 01:05:49 +0000] [642381] [INFO] Worker exiting (pid: 642381)
+[2025-11-05 01:05:49 +0000] [642378] [INFO] Shutting down: Master

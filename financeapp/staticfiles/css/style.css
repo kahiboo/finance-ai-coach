@@ -1,0 +1,375 @@
+`/* ===========================================================
+   FINANCE AI COACH — GLOBAL STYLE SHEET
+   Serious. Playful. Polished.
+   =========================================================== */
+
+/* ---------- Font & Root Colors ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary: #2563eb;         /* Confident blue */
+  --primary-dark: #1e40af;
+  --accent: #38bdf8;          /* Playful sky blue */
+  --bg: #f9fafb;
+  --text: #1f2937;
+  --card-bg: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+  --transition: 0.25s ease-in-out;
+}
+
+/* ---------- Global Reset ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+  padding: 1rem 2rem;
+  box-shadow: 0 3px 6px var(--shadow);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #fff !important;
+  letter-spacing: 0.5px;
+}
+
+.navbar-brand:hover {
+  color: var(--accent) !important;
+}
+
+.nav-link {
+  color: #e5e7eb !important;
+  font-weight: 500;
+  margin-left: 1.25rem;
+  transition: color var(--transition);
+}
+
+.nav-link:hover {
+  color: #fff !important;
+}
+
+/* ---------- Page Containers ---------- */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px var(--shadow);
+  padding: 1.5rem;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- Headings ---------- */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+}
+
+/* ---------- Buttons ---------- */
+button,
+.btn {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+button:hover,
+.btn:hover {
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px var(--shadow);
+}
+
+/* ---------- Forms ---------- */
+form {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius);
+  transition: border var(--transition), box-shadow var(--transition);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ---------- Flash messages ---------- */
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.alert-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  background-color: var(--primary-dark);
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 3rem;
+  box-shadow: 0 -2px 5px var(--shadow);
+  font-size: 0.95rem;
+}
+
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+/* ---------- Hero Section ---------- */
+.hero {
+  background: linear-gradient(120deg, var(--primary-dark), var(--primary));
+  color: #0000;
+  height: 80vh;
+  text-align: center;
+}
+
+.hero .highlight {
+  color: var(--accent);
+}
+
+.hero .btn-primary {
+  background-color: #000;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.hero .btn-primary:hover {
+  background-color: var(--accent);
+  color: #000;
+}
+
+/* ---------- Features Section ---------- */
+.feature-card img {
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+  height: 200px;
+  object-fit: cover;
+}
+
+/* ---------- How It Works ---------- */
+.list-steps {
+  list-style: decimal;
+  margin-left: 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+/* ---------- CTA Section ---------- */
+.bg-gradient {
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+  color: white;
+}
+
+.btn-light {
+  color: var(--primary-dark);
+  transition: all var(--transition);
+}
+
+.btn-light:hover {
+  background-color: var(--accent);
+  color: #000;
+}
+/* ---------- Section Spacing & Alignment ---------- */
+section {
+  padding: 4rem 0;
+}
+
+section h2 {
+  color: var(--primary-dark);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* ---------- Hero Enhancements ---------- */
+.hero {
+  background: linear-gradient(135deg, var(--primary-dark) 20%, var(--primary) 80%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 2rem;
+  min-height: 90vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.15), transparent 70%);
+  z-index: 0;
+}
+
+.hero .hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  color: #f1f5f9;
+  margin-bottom: 2rem;
+}
+
+/* ---------- Buttons Styling Update ---------- */
+.btn-outline-primary {
+  background-color: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.btn-outline-primary:hover {
+  background-color: #000;
+  color: var(--primary-dark);
+}
+
+/* ---------- Features Section Refinement ---------- */
+.features {
+  background-color: #fff;
+}
+
+.feature-card {
+  border: none;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.feature-card .card-body {
+  padding: 1.5rem;
+}
+
+.feature-card h5 {
+  color: var(--primary-dark);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+/* ---------- How It Works Section ---------- */
+.how-it-works {
+  background-color: #f3f4f6;
+}
+
+.how-it-works img {
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+/* ---------- Testimonials Section ---------- */
+.testimonials {
+  background-color: #fff;
+}
+
+.testimonials .card {
+  border: none;
+  border-radius: var(--radius);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.testimonials .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- CTA Section ---------- */
+.cta {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: #fff;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.cta .btn {
+  background-color: #fff;
+  color: var(--primary-dark);
+  font-weight: 600;
+  border-radius: var(--radius);
+}
+
+.cta .btn:hover {
+  background-color: var(--accent);
+  color: #fff;
+}
+
