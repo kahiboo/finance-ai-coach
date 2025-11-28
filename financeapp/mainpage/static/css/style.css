@@ -199,3 +199,43 @@ footer a:hover{text-decoration:underline}
    =========================================================== */
 .hidden{display:none!important}
 .center{text-align:center}
+/* ===========================================================
+   NAVBAR FIX — HIGH CONTRAST WHITE TEXT FOR DARK HEADER
+   =========================================================== */
+
+.navbar.bg-dark,
+.navbar.navbar-dark {
+    background: #0f172a !important; /* deep charcoal */
+    border-bottom: 1px solid #1e293b;
+}
+
+.navbar-dark .navbar-brand {
+    color: #ffffff !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff !important;
+    font-weight: 600;
+    transition: color .25s ease;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+    color: #93c5fd !important;  /* soft luxury blue hover */
+}
+
+/* DROPDOWN FIX */
+.navbar-dark .dropdown-menu {
+    background-color: #1e293b !important;
+    border: none;
+}
+
+.navbar-dark .dropdown-item {
+    color: #ffffff !important;
+}
+
+.navbar-dark .dropdown-item:hover {
+    background-color: #334155 !important;
+    color: #93c5fd !important;
+}
+

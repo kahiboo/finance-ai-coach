@@ -1,0 +1,8 @@
+PLAID EXCHANGE ERROR: name 'BankConnection' is not defined
+PLAID EXCHANGE ERROR: name 'BankConnection' is not defined
+de' has no attribute 'US'
+PLAID LINK TOKEN ERROR: type object 'CountryCode' has no attribute 'US'
+PLAID LINK TOKEN ERROR: type object 'CountryCode' has no attribute 'US'
+PLAID LINK TOKEN ERROR: type object 'CountryCode' has no attribute 'US'
+PLAID LINK TOKEN ERROR: type object 'CountryCode' has no attribute 'US'
+RROR: Invalid type for variable '0'. Required value type is CountryCode and passed type was str at ['country_codes'][0]

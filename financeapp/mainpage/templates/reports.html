@@ -1,19 +1,230 @@
 {% extends "base.html" %}
-{% block title %}Reports{% endblock %}
+{% block title %}Financial Reports{% endblock %}
+
 {% block content %}
-<h2>Reports</h2>
-<canvas id="trend" height="120"></canvas>
-<script>
-const labels = {{ labels|safe }};
-const data = {{ data|safe }};
-const ctx = document.getElementById('trend');
-if (ctx) {
-  new Chart(ctx, {
-    type: 'bar',
-    data: { labels, datasets: [{ label: 'Net ($)', data }]},
-    options: { scales: { y: { beginAtZero: true }}, plugins: { legend: { display: false } } }
-  });
+
+<style>
+/* Page Layout */
+.reports-container {
+    max-width: 1250px;
+    margin: auto;
+    padding: 20px;
 }
+
+/* Title (now black as requested) */
+.report-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #000;  /* <-- changed from gradient to black */
+}
+
+/* Summary card styles */
+.summary-card {
+    background: #f0f6ff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 6px 16px rgba(30,58,138,0.1);
+    text-align: center;
+}
+
+.summary-value {
+    font-size: 26px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+.summary-label {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+/* Chart container cards */
+.chart-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    height: auto; /* FIXED: removed fixed height */
+}
+
+/* CHART WRAPPER — FIXES DONUT OVERFLOW */
+.chart-wrapper {
+    width: 100%;
+    max-width: 400px; /* limits chart width */
+    margin: 0 auto; /* centers chart */
+}
+
+#donutChart {
+    width: 100% !important;
+    height: auto !important;
+}
+
+#lineChart {
+    width: 100% !important;
+    height: 320px !important;
+}
+
+/* AI Suggestions */
+.ai-box {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    padding: 25px;
+    margin-top: 40px;
+    border-radius: 18px;
+    box-shadow: 0 8px 22px rgba(0, 85, 255, 0.15);
+}
+
+.ai-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+</style>
+
+
+<div class="reports-container">
+
+    <h2 class="report-title mb-4">Financial Reports & Analytics</h2>
+
+    <!-- Summary Row -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="summary-card">
+                <div class="summary-value">${{ total_net_activity|floatformat:2 }}</div>
+                <div class="summary-label">Total Net Activity</div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="summary-card">
+                <div class="summary-value">{{ month_labels|length }}</div>
+                <div class="summary-label">Months Tracked</div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="summary-card">
+                <div class="summary-value">{{ category_chart|length }}</div>
+                <div class="summary-label">Spending Categories</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+        <!-- Monthly Trend Line Chart -->
+        <div class="col-md-7 mb-4">
+            <div class="chart-card" style="height: 420px;">
+                <h5 class="mb-3">Monthly Spending Trend</h5>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Category Donut Chart -->
+        <div class="col-md-5 mb-4">
+            <div class="chart-card">
+                <h5 class="mb-3 text-center">Spending by Category</h5>
+
+                <!-- WRAPPER FIX -->
+                <div class="chart-wrapper">
+                    <canvas id="donutChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Suggestions Section -->
+    <div class="ai-box">
+        <h3 class="ai-title mb-3">💡 AI Spending Suggestions</h3>
+
+        <button id="aiBtn" class="btn btn-primary mb-3">Generate AI Insights</button>
+
+        <p id="ai-loading" class="text-info" style="display:none;">
+            Analyzing your spending… please wait ⏳
+        </p>
+
+        <p id="ai-error" class="text-danger"></p>
+
+        <div id="ai-results" class="p-3 bg-white border rounded" style="display:none;"></div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* -------------------------
+   LINE CHART (Month Trend)
+-------------------------- */
+new Chart(document.getElementById('lineChart'), {
+    type: 'line',
+    data: {
+        labels: [{% for m in month_labels %}"{{ m }}",{% endfor %}],
+        datasets: [{
+            label: "Net Monthly Total",
+            data: [{% for v in month_data %}{{ v }},{% endfor %}],
+            borderColor: "#3B82F6",
+            backgroundColor: "rgba(59,130,246,0.2)",
+            borderWidth: 3,
+            tension: 0.35,
+            pointRadius: 5,
+            pointBackgroundColor: "#1E3A8A"
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { y: { beginAtZero: false } }
+    }
+});
+
+
+/* -------------------------
+   DONUT CHART (Categories)
+-------------------------- */
+new Chart(document.getElementById('donutChart'), {
+    type: 'doughnut',
+    data: {
+        labels: [{% for item in category_chart %}"{{ item.label }}",{% endfor %}],
+        datasets: [{
+            data: [{% for item in category_chart %}{{ item.value }},{% endfor %}],
+            backgroundColor: [{% for item in category_chart %}"{{ item.color }}",{% endfor %}],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: "60%"
+    }
+});
+
+
+/* -------------------------
+   AI SUGGESTIONS LOGIC
+-------------------------- */
+document.getElementById("aiBtn").onclick = function() {
+    document.getElementById("ai-loading").style.display = "block";
+    document.getElementById("ai-results").style.display = "none";
+    document.getElementById("ai-error").innerHTML = "";
+
+    fetch("/ai/suggestions/", {
+        method: "POST",
+        headers: { "X-CSRFToken": "{{ csrf_token }}" }
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("ai-loading").style.display = "none";
+
+        if (data.error) {
+            document.getElementById("ai-error").innerHTML = data.error;
+        } else {
+            document.getElementById("ai-results").style.display = "block";
+            document.getElementById("ai-results").innerHTML =
+                data.advice.replace(/\n/g, "<br>");
+        }
+    });
+};
 </script>
+
 {% endblock %}
 

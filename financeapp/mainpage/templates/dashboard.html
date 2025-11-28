@@ -1,6 +1,221 @@
 {% extends "base.html" %}
 {% block title %}Dashboard{% endblock %}
+
 {% block content %}
-<h2>Welcome to your Dashboard!</h2>
-<p>This is where your personalized financial data will appear.</p>
+
+<style>
+/* ---- CATEGORY DROPDOWN VISUAL ---- */
+.category-label {
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: 0.2s;
+    background: #f8fafc;
+}
+
+.category-label:hover {
+    background: #e2e8f0;
+}
+
+.dropdown-arrow {
+    font-size: 12px;
+    opacity: 0.6;
+}
+</style>
+
+<div class="container mt-4">
+
+    <h2 class="fw-bold mb-4">Your Financial Dashboard</h2>
+
+    <!-- ===== STATS CARDS ===== -->
+    <div class="row g-4 mb-4">
+
+        <!-- Income -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="text-muted">Income (This Month)</h5>
+                    <h3 class="fw-bold text-success">${{ income }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spending -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="text-muted">Spending (This Month)</h5>
+                    <h3 class="fw-bold text-danger">${{ spend }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Safe to Spend -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="text-muted">Safe to Spend</h5>
+                    <h3 class="fw-bold {% if safe_to_spend >= 0 %}text-success{% else %}text-danger{% endif %}">
+                        ${{ safe_to_spend }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== SAVINGS GOAL ===== -->
+    {% if goal %}
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <h5 class="fw-bold">Savings Goal</h5>
+            <p>{{ goal.name }} — Target: ${{ goal.target_amount }}</p>
+            <div class="progress" style="height: 20px;">
+                <div class="progress-bar bg-success" role="progressbar"
+                     style="width: {{ goal.progress_percent }}%;">
+                    {{ goal.progress_percent }}%
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- ===== BANK INTEGRATION ===== -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body d-flex gap-3">
+            <button id="connect-bank-btn" class="btn btn-primary">
+                Connect Your Bank
+            </button>
+
+            <button id="fetch-btn" class="btn btn-success">
+                Import Bank Transactions
+            </button>
+
+            <div id="connect-status" class="ms-3"></div>
+            <div id="fetch-status" class="ms-3"></div>
+        </div>
+    </div>
+
+    <!-- ===== RECENT TRANSACTIONS ===== -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h5 class="fw-bold mb-3">Recent Transactions</h5>
+
+            {% csrf_token %}
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for tx in recent %}
+                    <tr>
+                        <td>{{ tx.date }}</td>
+                        <td>{{ tx.description }}</td>
+
+                        <!-- CATEGORY CELL (DROPDOWN VISUAL + EDITABLE) -->
+                        <td class="category-cell" data-id="{{ tx.id }}">
+
+                            <span class="category-label">
+                                {{ tx.category.name }}
+                                <span class="dropdown-arrow">⌄</span>
+                            </span>
+
+                            <select class="category-select form-select mt-1" style="display:none;">
+                                {% for c in categories %}
+                                    <option value="{{ c.id }}" {% if c.id == tx.category.id %}selected{% endif %}>
+                                        {{ c.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                            <button class="btn btn-sm btn-primary mt-1 confirm-btn" style="display:none;">
+                                Confirm
+                            </button>
+
+                        </td>
+
+                        <td class="text-end {% if tx.amount < 0 %}text-danger{% else %}text-success{% endif %}">
+                            ${{ tx.amount }}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-3">
+                            No transactions imported yet.
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    // Show dropdown on click
+    document.querySelectorAll(".category-label").forEach(label => {
+        label.addEventListener("click", function () {
+            const cell = this.parentElement;
+            cell.querySelector(".category-label").style.display = "none";
+            cell.querySelector(".category-select").style.display = "block";
+            cell.querySelector(".confirm-btn").style.display = "inline-block";
+        });
+    });
+
+    // Confirm update
+    document.querySelectorAll(".confirm-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+
+            const cell = this.parentElement;
+            const transactionId = cell.dataset.id;
+            const newCategoryId = cell.querySelector(".category-select").value;
+
+            fetch(`/update-category/${transactionId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": csrfToken
+                },
+                body: new URLSearchParams({
+                    "category_id": newCategoryId
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                if (data.success) {
+                    cell.querySelector(".category-label").innerHTML =
+                        `${data.category_name} <span class="dropdown-arrow">⌄</span>`;
+
+                    cell.querySelector(".category-label").style.display = "inline-flex";
+                    cell.querySelector(".category-select").style.display = "none";
+                    cell.querySelector(".confirm-btn").style.display = "none";
+                }
+
+            });
+
+        });
+    });
+
+});
+</script>
+
 {% endblock %}
+

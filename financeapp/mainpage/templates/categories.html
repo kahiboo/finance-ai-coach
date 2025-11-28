@@ -1,17 +1,52 @@
 {% extends "base.html" %}
 {% block title %}Categories{% endblock %}
+
 {% block content %}
-<h2>Categories</h2>
-<form method="post">{% csrf_token %}
-  <input type="text" name="name" placeholder="New category name" required>
-  <button class="btn">Add</button>
-</form>
-<ul class="list">
-  {% for c in categories %}
-    <li>{{ c.name }}</li>
-  {% empty %}
-    <li>No categories yet.</li>
-  {% endfor %}
-</ul>
+
+<div class="container mt-5">
+
+    <h2 class="text-center fw-bold mb-4">Categories</h2>
+
+    <!-- Category Add Card -->
+    <div class="card shadow-sm border-0 mb-5 mx-auto" style="max-width: 600px; border-radius: 18px;">
+        <div class="card-body p-4">
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input type="text" name="name" class="form-control form-control-lg"
+                           placeholder="New category name" required
+                           style="border-radius: 12px;">
+                </div>
+
+                <button class="btn btn-primary w-100 fw-bold py-2"
+                        style="border-radius: 12px; font-size: 18px;">
+                    Add Category
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Category List Section -->
+    <div class="mx-auto" style="max-width: 700px;">
+
+        <div class="d-flex flex-wrap gap-2">
+            {% for c in categories %}
+
+                <span class="badge bg-light text-dark border shadow-sm px-3 py-2"
+                      style="font-size: 16px; border-radius: 12px; display: flex; align-items: center;">
+                    {{ c.name }}
+                </span>
+
+            {% empty %}
+                <p class="text-center text-muted w-100">No categories yet.</p>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}
 

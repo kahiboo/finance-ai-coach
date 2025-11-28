@@ -1,375 +1,241 @@
-`/* ===========================================================
-   FINANCE AI COACH — GLOBAL STYLE SHEET
-   Serious. Playful. Polished.
+/* ===========================================================
+   FINANCE AI COACH — GLOBAL STYLE SHEET (HIGH CONTRAST)
+   Readable everywhere. No washed-out text.
    =========================================================== */
 
-/* ---------- Font & Root Colors ---------- */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+/* ---------- Fonts & Theme ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-:root {
-  --primary: #2563eb;         /* Confident blue */
-  --primary-dark: #1e40af;
-  --accent: #38bdf8;          /* Playful sky blue */
-  --bg: #f9fafb;
-  --text: #1f2937;
-  --card-bg: #ffffff;
-  --shadow: rgba(0, 0, 0, 0.08);
-  --radius: 12px;
-  --transition: 0.25s ease-in-out;
+:root{
+  /* High-contrast palette */
+  --primary: #1f4dd9;        /* deep blue */
+  --primary-600:#173db0;
+  --accent:#0ea5e9;          /* cyan pop */
+  --bg:#f7f8fb;              /* very light neutral */
+  --surface:#ffffff;         /* cards/nav */
+  --text:#0f172a;            /* near-black */
+  --muted:#475569;           /* secondary text */
+  --ring: rgba(31,77,217,.25);
+  --shadow: 0 8px 24px rgba(15,23,42,.08);
+  --radius:14px;
+  --t: .22s cubic-bezier(.2,.6,.2,1);
 }
 
-/* ---------- Global Reset ---------- */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* ---------- Reset / Base ---------- */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
 }
+img{max-width:100%;height:auto;display:block}
+a{color:var(--primary);text-decoration:none;transition:color var(--t)}
+a:hover{color:var(--accent)}
+.container{width:min(1120px,92%);margin:auto;padding:2rem 0}
 
-html, body {
-  height: 100%;
-  background-color: var(--bg);
+/* ===========================================================
+   NAVBAR
+   =========================================================== */
+.navbar{
+  background:var(--surface);
+  border-bottom:1px solid #e5e7eb;
+  box-shadow: var(--shadow);
+  padding: .9rem 1.25rem;
+}
+.navbar-brand{color:var(--text)!important;font-weight:700;font-size:1.35rem}
+.navbar-brand:hover{color:var(--primary)!important}
+.nav-link{color:#334155!important;font-weight:600;margin-left:1rem;transition:color var(--t)}
+.nav-link:hover{color:var(--primary)!important}
+
+/* ===========================================================
+   HERO (LIGHT by default)
+   =========================================================== */
+.hero{
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(14,165,233,.18), transparent 60%),
+    radial-gradient(1000px 500px at 0% 100%, rgba(31,77,217,.12), transparent 55%),
+    var(--bg);
+  color: var(--text);               /* DARK TEXT so it's always visible */
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  text-align:center;min-height:86vh;padding:3.5rem 1.25rem;position:relative;overflow:hidden;
+}
+.hero h1{
+  font-size:clamp(2rem,4vw+1rem,3.25rem);
+  line-height:1.2;font-weight:800;letter-spacing:.2px;margin-bottom:.9rem;
   color: var(--text);
-  font-family: "Poppins", sans-serif;
-  line-height: 1.6;
-  scroll-behavior: smooth;
+}
+.hero p{
+  color: var(--muted);
+  font-size:clamp(1rem,1.1vw + .6rem,1.15rem);max-width:740px;margin:0 auto 1.75rem;
 }
 
-/* ---------- Navbar ---------- */
-.navbar {
-  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
-  padding: 1rem 2rem;
-  box-shadow: 0 3px 6px var(--shadow);
+/* Optional dark variant if you WANT white text */
+.hero--dark{
+  background: linear-gradient(135deg, var(--primary-600), var(--primary));
+  color:#fff;
+}
+.hero--dark h1, .hero--dark p{color:#fff}
+
+/* ===========================================================
+   BUTTONS
+   =========================================================== */
+.btn{
+  -webkit-appearance:none;appearance:none;
+  display:inline-block;border:0;border-radius:calc(var(--radius) - 4px);
+  font-weight:700;letter-spacing:.2px;padding:.8rem 1.3rem;cursor:pointer;
+  transition:transform var(--t), box-shadow var(--t), background var(--t), color var(--t);
+}
+.btn-primary{
+  background: linear-gradient(90deg, var(--primary), #3b82f6);
+  color:#fff;
+  box-shadow:0 10px 22px rgba(31,77,217,.20);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(31,77,217,.28)}
+.btn-outline{
+  background:#fff;color:var(--primary);border:2px solid var(--primary);
+}
+.btn-outline:hover{background:var(--primary);color:#fff}
+.btn-ghost{
+  background:transparent;color:var(--text)
 }
 
-.navbar-brand {
-  font-weight: 700;
-  font-size: 1.4rem;
-  color: #fff !important;
-  letter-spacing: 0.5px;
+/* Button group spacing */
+.btn + .btn{margin-left:.75rem}
+
+/* ===========================================================
+   CARDS / SECTIONS
+   =========================================================== */
+section{padding:4rem 0}
+h2{font-size:clamp(1.5rem,2.4vw,2rem);font-weight:800;color:var(--text);text-align:center;margin-bottom:1.4rem}
+
+.card{
+  background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:1.4rem;transition:transform var(--t), box-shadow var(--t)
+}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(15,23,42,.12)}
+
+/* Features */
+.features{background:transparent}
+.feature-grid{
+  display:grid;gap:1.6rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+}
+.feature-card{overflow:hidden}
+.feature-card img{height:200px;width:100%;object-fit:cover;border-radius:12px}
+.feature-card h5{margin:.9rem 0 .4rem;font-weight:800;color:var(--text)}
+.feature-card p{color:var(--muted)}
+
+/* How it works */
+.how-it-works{background:var(--surface)}
+.steps{display:grid;gap:1.4rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.step{padding:1.6rem;border:1px solid #e5e7eb}
+.step h3{font-weight:800;margin-bottom:.4rem}
+
+/* Testimonials */
+.testimonials{background:transparent}
+.testimonial-card{background:var(--surface);padding:1.6rem;border-radius:var(--radius);box-shadow:var(--shadow)}
+.testimonial-card p{color:var(--muted)}
+
+/* CTA */
+.cta{
+  background: linear-gradient(135deg, #0b1f66, var(--primary));
+  color:#fff;text-align:center;padding:3.4rem 1.5rem;border-radius:calc(var(--radius) + 6px);
+}
+.cta .btn-primary{background:#fff;color:var(--primary);box-shadow:0 10px 24px rgba(255,255,255,.18)}
+.cta .btn-primary:hover{background:#eaf2ff}
+
+/* ===========================================================
+   FORMS
+   =========================================================== */
+form{
+  background:var(--surface);padding:2rem;border-radius:var(--radius);
+  box-shadow:var(--shadow);max-width:640px;margin:0 auto
+}
+input,select,textarea{
+  width:100%;padding:.8rem 1rem;margin-top:.5rem;margin-bottom:1.1rem;
+  border:1px solid #d1d5db;border-radius:12px;background:#fff;color:var(--text);
+  transition:border var(--t), box-shadow var(--t)
+}
+input:focus,select:focus,textarea:focus{
+  outline:none;border-color:var(--primary);
+  box-shadow:0 0 0 4px var(--ring)
 }
 
-.navbar-brand:hover {
-  color: var(--accent) !important;
+/* Alerts */
+.alert{padding:1rem 1.1rem;border-radius:12px;margin:.8rem 0;font-weight:600}
+.alert-success{background:#dcfce7;color:#166534}
+.alert-error{background:#fee2e2;color:#991b1b}
+
+/* ===========================================================
+   FOOTER
+   =========================================================== */
+footer{
+  background:var(--surface);border-top:1px solid #e5e7eb;
+  color:#0b1220;text-align:center;padding:1rem 0;margin-top:3rem
+}
+footer a{color:var(--primary);font-weight:700}
+footer a:hover{text-decoration:underline}
+
+/* ===========================================================
+   ACCESSIBILITY & EFFECTS
+   =========================================================== */
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.fade-in{opacity:0;transform:translateY(14px);animation:fi .5s forwards}
+@keyframes fi{to{opacity:1;transform:none}}
+
+/* ===========================================================
+   RESPONSIVE
+   =========================================================== */
+@media (max-width: 768px){
+  .btn + .btn{margin-left:.5rem}
+  .container{width:min(1120px,94%)}
 }
 
-.nav-link {
-  color: #e5e7eb !important;
-  font-weight: 500;
-  margin-left: 1.25rem;
-  transition: color var(--transition);
+/* ===========================================================
+   UTILS
+   =========================================================== */
+.hidden{display:none!important}
+.center{text-align:center}
+/* ===========================================================
+   NAVBAR FIX — HIGH CONTRAST WHITE TEXT FOR DARK HEADER
+   =========================================================== */
+
+.navbar.bg-dark,
+.navbar.navbar-dark {
+    background: #0f172a !important; /* deep charcoal */
+    border-bottom: 1px solid #1e293b;
 }
 
-.nav-link:hover {
-  color: #fff !important;
+.navbar-dark .navbar-brand {
+    color: #ffffff !important;
 }
 
-/* ---------- Page Containers ---------- */
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 2rem;
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff !important;
+    font-weight: 600;
+    transition: color .25s ease;
 }
 
-/* ---------- Cards ---------- */
-.card {
-  background-color: var(--card-bg);
-  border-radius: var(--radius);
-  box-shadow: 0 4px 12px var(--shadow);
-  padding: 1.5rem;
-  transition: transform var(--transition), box-shadow var(--transition);
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+    color: #93c5fd !important;  /* soft luxury blue hover */
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+/* DROPDOWN FIX */
+.navbar-dark .dropdown-menu {
+    background-color: #1e293b !important;
+    border: none;
 }
 
-/* ---------- Headings ---------- */
-h1, h2, h3, h4 {
-  font-weight: 600;
-  color: var(--primary-dark);
+.navbar-dark .dropdown-item {
+    color: #ffffff !important;
 }
 
-h1 {
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
-}
-
-h2 {
-  font-size: 1.8rem;
-  margin-bottom: 0.75rem;
-}
-
-/* ---------- Buttons ---------- */
-button,
-.btn {
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  border: none;
-  border-radius: var(--radius);
-  color: #fff;
-  font-weight: 600;
-  padding: 0.6rem 1.4rem;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-
-button:hover,
-.btn:hover {
-  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px var(--shadow);
-}
-
-/* ---------- Forms ---------- */
-form {
-  background: var(--card-bg);
-  padding: 2rem;
-  border-radius: var(--radius);
-  box-shadow: 0 2px 8px var(--shadow);
-}
-
-input, select, textarea {
-  width: 100%;
-  padding: 0.7rem 1rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1.25rem;
-  border: 1px solid #d1d5db;
-  border-radius: var(--radius);
-  transition: border var(--transition), box-shadow var(--transition);
-}
-
-input:focus, select:focus, textarea:focus {
-  border-color: var(--primary);
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-/* ---------- Flash messages ---------- */
-.alert {
-  padding: 1rem 1.25rem;
-  border-radius: var(--radius);
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
-
-.alert-success {
-  background-color: #dcfce7;
-  color: #166534;
-}
-
-.alert-error {
-  background-color: #fee2e2;
-  color: #991b1b;
-}
-
-/* ---------- Footer ---------- */
-footer {
-  background-color: var(--primary-dark);
-  color: #fff;
-  text-align: center;
-  padding: 1rem 0;
-  margin-top: 3rem;
-  box-shadow: 0 -2px 5px var(--shadow);
-  font-size: 0.95rem;
-}
-
-footer a {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-/* ---------- Hero Section ---------- */
-.hero {
-  background: linear-gradient(120deg, var(--primary-dark), var(--primary));
-  color: #0000;
-  height: 80vh;
-  text-align: center;
-}
-
-.hero .highlight {
-  color: var(--accent);
-}
-
-.hero .btn-primary {
-  background-color: #000;
-  color: var(--primary-dark);
-  font-weight: 600;
-}
-
-.hero .btn-primary:hover {
-  background-color: var(--accent);
-  color: #000;
-}
-
-/* ---------- Features Section ---------- */
-.feature-card img {
-  border-top-left-radius: var(--radius);
-  border-top-right-radius: var(--radius);
-  height: 200px;
-  object-fit: cover;
-}
-
-/* ---------- How It Works ---------- */
-.list-steps {
-  list-style: decimal;
-  margin-left: 1.5rem;
-  font-size: 1.1rem;
-  line-height: 1.8;
-}
-
-/* ---------- CTA Section ---------- */
-.bg-gradient {
-  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
-  color: white;
-}
-
-.btn-light {
-  color: var(--primary-dark);
-  transition: all var(--transition);
-}
-
-.btn-light:hover {
-  background-color: var(--accent);
-  color: #000;
-}
-/* ---------- Section Spacing & Alignment ---------- */
-section {
-  padding: 4rem 0;
-}
-
-section h2 {
-  color: var(--primary-dark);
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-/* ---------- Hero Enhancements ---------- */
-.hero {
-  background: linear-gradient(135deg, var(--primary-dark) 20%, var(--primary) 80%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  padding: 2rem;
-  min-height: 90vh;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.15), transparent 70%);
-  z-index: 0;
-}
-
-.hero .hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 700px;
-}
-
-.hero h1 {
-  font-size: 2.8rem;
-  font-weight: 700;
-  line-height: 1.3;
-  margin-bottom: 1rem;
-}
-
-.hero p {
-  font-size: 1.15rem;
-  color: #f1f5f9;
-  margin-bottom: 2rem;
-}
-
-/* ---------- Buttons Styling Update ---------- */
-.btn-outline-primary {
-  background-color: transparent;
-  border: 2px solid #fff;
-  color: #fff;
-  font-weight: 600;
-  transition: all var(--transition);
-}
-
-.btn-outline-primary:hover {
-  background-color: #000;
-  color: var(--primary-dark);
-}
-
-/* ---------- Features Section Refinement ---------- */
-.features {
-  background-color: #fff;
-}
-
-.feature-card {
-  border: none;
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.feature-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-}
-
-.feature-card .card-body {
-  padding: 1.5rem;
-}
-
-.feature-card h5 {
-  color: var(--primary-dark);
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-}
-
-/* ---------- How It Works Section ---------- */
-.how-it-works {
-  background-color: #f3f4f6;
-}
-
-.how-it-works img {
-  border-radius: var(--radius);
-  box-shadow: 0 4px 12px var(--shadow);
-}
-
-/* ---------- Testimonials Section ---------- */
-.testimonials {
-  background-color: #fff;
-}
-
-.testimonials .card {
-  border: none;
-  border-radius: var(--radius);
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.testimonials .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-}
-
-/* ---------- CTA Section ---------- */
-.cta {
-  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-  color: #fff;
-  text-align: center;
-  padding: 4rem 2rem;
-}
-
-.cta .btn {
-  background-color: #fff;
-  color: var(--primary-dark);
-  font-weight: 600;
-  border-radius: var(--radius);
-}
-
-.cta .btn:hover {
-  background-color: var(--accent);
-  color: #fff;
+.navbar-dark .dropdown-item:hover {
+    background-color: #334155 !important;
+    color: #93c5fd !important;
 }
 

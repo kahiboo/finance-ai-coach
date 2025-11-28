@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+
+<style>
+.search-bar, .month-filter {
+    border-radius: 10px;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+}
+
+.category-label {
+    cursor: pointer;
+    padding: 4px 8px;
+    background: #f8fafc;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+}
+
+.category-label:hover {
+    background: #e2e8f0;
+}
+
+.dropdown-arrow {
+    opacity: .5;
+    font-size: 12px;
+}
+</style>
+
+<div class="container mt-4">
+
+    <h2 class="fw-bold mb-4">All Transactions</h2>
+
+    <!-- Filters -->
+    <form method="GET" class="row g-3 mb-4">
+
+        <!-- Search -->
+        <div class="col-md-6">
+            <input type="text" name="q" value="{{ search_query }}"
+                class="form-control search-bar" placeholder="Search transactions...">
+        </div>
+
+        <!-- Month Filter -->
+        <div class="col-md-4">
+            <select name="month" class="form-control month-filter">
+                <option value="">All Months</option>
+                {% for m in months %}
+                    <option value="{{ m|date:'Y-m' }}"
+                        {% if selected_month == m|date:'Y-m' %}selected{% endif %}>
+                        {{ m|date:"F Y" }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <button class="btn btn-primary w-100">Filter</button>
+        </div>
+
+    </form>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            {% csrf_token %}
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                {% for tx in transactions %}
+                    <tr>
+                        <td>{{ tx.date }}</td>
+                        <td>{{ tx.description }}</td>
+
+                        <td class="category-cell" data-id="{{ tx.id }}">
+
+                            <!-- Visible label -->
+                            <span class="category-label">
+                                {{ tx.category.name }}
+                                <span class="dropdown-arrow">⌄</span>
+                            </span>
+
+                            <!-- Selector -->
+                            <select class="category-select form-select mt-1" style="display:none;">
+                                {% for c in categories %}
+                                    <option value="{{ c.id }}" {% if tx.category.id == c.id %}selected{% endif %}>
+                                        {{ c.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                            <!-- Confirm -->
+                            <button class="btn btn-sm btn-primary mt-1 confirm-btn" style="display:none;">
+                                Save
+                            </button>
+                        </td>
+
+                        <td class="text-end {% if tx.amount < 0 %}text-danger{% else %}text-success{% endif %}">
+                            ${{ tx.amount }}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="4" class="text-center text-muted py-3">No transactions found.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+    document.querySelectorAll(".category-label").forEach(label => {
+        label.addEventListener("click", function () {
+            const cell = this.parentElement;
+            cell.querySelector(".category-label").style.display = "none";
+            cell.querySelector(".category-select").style.display = "block";
+            cell.querySelector(".confirm-btn").style.display = "inline-block";
+        });
+    });
+
+    document.querySelectorAll(".confirm-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+
+            const cell = this.parentElement;
+            const transactionId = cell.dataset.id;
+            const newCategoryId = cell.querySelector(".category-select").value;
+
+            fetch(`/update-category/${transactionId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": csrfToken
+                },
+                body: new URLSearchParams({ "category_id": newCategoryId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+
+                    cell.querySelector(".category-label").innerHTML =
+                        `${data.category_name} <span class='dropdown-arrow'>⌄</span>`;
+
+                    cell.querySelector(".category-label").style.display = "inline-flex";
+                    cell.querySelector(".category-select").style.display = "none";
+                    cell.querySelector(".confirm-btn").style.display = "none";
+                }
+            });
+
+        });
+    });
+
+});
+</script>
+
+{% endblock %}
+
