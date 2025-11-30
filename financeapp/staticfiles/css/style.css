@@ -238,4 +238,13 @@ footer a:hover{text-decoration:underline}
     background-color: #334155 !important;
     color: #93c5fd !important;
 }
-
+table form,
+.table form,
+tr form,
+td form {
+    background: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    max-width: none !important;
+}

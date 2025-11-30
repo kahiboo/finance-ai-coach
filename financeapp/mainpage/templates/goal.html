@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Your Goals{% endblock %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="fw-bold mb-4"> Your Goals</h2>
+
+    <!-- Existing goals -->
+    <div class="row">
+        {% for g in goals %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm p-3">
+                <h5>{{ g.name }} <small class="text-muted">({{ g.goal_type }})</small></h5>
+                <p><strong>${{ g.current_amount }}</strong> saved of ${{ g.target_amount }}</p>
+
+                <div class="progress mb-2" style="height: 18px;">
+                    <div class="progress-bar bg-success"
+                         role="progressbar"
+                         style="width: {{ g.progress_pct }}%;">
+                        {{ g.progress_pct|floatformat:0 }}%
+                    </div>
+                </div>
+
+                <p class="text-muted mb-1">Amount remaining: ${{ g.amount_remaining|floatformat:2 }}</p>
+                {% if g.deadline %}
+                <p class="text-muted">Deadline: {{ g.deadline }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <hr class="my-4">
+
+    <!-- Add new goal -->
+    <h4>Create New Goal</h4>
+    <form method="POST">
+        {% csrf_token %}
+
+        <label class="form-label">Goal Name</label>
+        <input type="text" name="name" class="form-control mb-3" required>
+
+        <label class="form-label">Type</label>
+        <select name="goal_type" class="form-control mb-3" required>
+            <option value="savings">Savings Goal</option>
+            <option value="payoff">Debt Payoff Goal</option>
+            <option value="expense">Expense Goal</option>
+        </select>
+
+        <label class="form-label">Target Amount</label>
+        <input type="number" step="0.01" name="target_amount" class="form-control mb-3" required>
+
+        <label class="form-label">Deadline</label>
+        <input type="date" name="deadline" class="form-control mb-3">
+
+        <button class="btn btn-primary w-100">Create Goal</button>
+    </form>
+
+</div>
+
+{% endblock %}
+

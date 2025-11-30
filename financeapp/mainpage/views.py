@@ -16,6 +16,7 @@ from plaid.model.transactions_get_request import TransactionsGetRequest
 from plaid.model.transactions_get_request_options import TransactionsGetRequestOptions
 from datetime import datetime, timedelta
 import pandas as pd
+from decimal import Decimal
 from io import TextIOWrapper
 from .plaid_client import plaid_client
 from django.http import JsonResponse
@@ -268,6 +269,118 @@ def transactions(request):
         "categories": Category.objects.filter(user=user),
     })
 
+#============================
+#==== Delete Transactinon ===
+#============================
+@login_required
+def delete_transaction(request, transaction_id):
+    tx = get_object_or_404(Transaction, id=transaction_id, user=request.user)
+
+    if request.method == "POST":
+        # Reverse goal updates if this was a savings contribution
+        if tx.category and tx.category.name.lower() in ["savings", "transfer to savings", "investment"]:
+            goal = SavingsGoal.objects.filter(user=request.user, goal_type="savings").first()
+            if goal:
+                goal.current_amount -= abs(Decimal(tx.amount))
+                if goal.current_amount < 0:
+                    goal.current_amount = Decimal("0.00")
+                goal.save()
+
+        tx.delete()
+        messages.success(request, "Transaction deleted successfully.")
+
+    return redirect("transactions")
+
+#=============================
+#====== Add Transaction ======
+#=============================
+@login_required
+def add_transaction(request):
+    user = request.user
+
+    if request.method == "POST":
+        date = request.POST.get("date")
+        description = request.POST.get("description")
+        amount_str = request.POST.get("amount")
+        category_id = request.POST.get("category")
+
+        if not date or not amount_str:
+            messages.error(request, "Date and amount are required.")
+            return redirect("add_transaction")
+
+        # Convert to Decimal safely
+        try:
+            amount = Decimal(amount_str)
+        except:
+            messages.error(request, "Invalid amount format.")
+            return redirect("add_transaction")
+
+        # Get category
+        category_obj = None
+        if category_id:
+            category_obj = Category.objects.filter(id=category_id, user=user).first()
+
+        # Auto-update savings goals properly using Decimal
+        if category_obj and category_obj.name.lower() in ["savings", "transfer to savings", "investment"]:
+            goal = SavingsGoal.objects.filter(user=user, goal_type="savings").first()
+            if goal:
+                contribution = abs(amount)  # already a Decimal
+                goal.current_amount += contribution
+                goal.save()
+
+                # Create optional history record if your model exists
+                try:
+                    from .models import GoalHistory
+                    GoalHistory.objects.create(goal=goal, amount=goal.current_amount)
+                except:
+                    pass  # ignore if GoalHistory not implemented
+
+        # Save the transaction
+        Transaction.objects.create(
+            user=user,
+            date=date,
+            description=description,
+            amount=amount,
+            category=category_obj
+        )
+
+        messages.success(request, "Transaction added successfully!")
+        return redirect("transactions")
+
+    return render(request, "add_transaction.html", {
+        "categories": Category.objects.filter(user=user)
+    })
+
+
+#=============================
+#======== Goal View ==========
+#=============================
+@login_required
+def goal_view(request):
+    user = request.user
+    goals = SavingsGoal.objects.filter(user=user)
+
+    if request.method == "POST":
+        name = request.POST.get("name")
+        goal_type = request.POST.get("goal_type")
+        target_amount = request.POST.get("target_amount")
+        deadline = request.POST.get("deadline")
+
+        SavingsGoal.objects.create(
+            user=user,
+            name=name,
+            goal_type=goal_type,
+            target_amount=target_amount,
+            current_amount=0,
+            deadline=deadline
+        )
+
+        messages.success(request, "Goal created!")
+        return redirect("goal")
+
+    return render(request, "goal.html", {
+        "goals": goals,
+    })
 
 
 # -----------------------------

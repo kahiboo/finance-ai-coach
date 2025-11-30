@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     index, about, signup, login_view, logout_view, dashboard,
-    upload_csv, reports, categories, contact, create_link_token, exchange_public_token, fetch_transactions, ai_suggestions, update_transaction_category, transactions)
+    upload_csv, reports, categories, contact, create_link_token, exchange_public_token, fetch_transactions, ai_suggestions, update_transaction_category, transactions, add_transaction, goal_view, delete_transaction)
 
 urlpatterns = [
     path('', index, name='index'),
@@ -17,6 +17,9 @@ urlpatterns = [
     path("ai/suggestions/", ai_suggestions, name="ai_suggestions"),
     path("update-category/<int:transaction_id>/", update_transaction_category, name="update_category"),
     path("transactions/", transactions, name="transactions"),
+    path("transactions/add/", add_transaction, name="add_transaction"),
+    path("goal/", goal_view, name="goal"),
+    path("transactions/delete/<int:transaction_id>/", delete_transaction, name="delete_transaction"),
 
 
 

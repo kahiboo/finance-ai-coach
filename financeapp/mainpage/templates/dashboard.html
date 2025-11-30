@@ -25,11 +25,37 @@
     font-size: 12px;
     opacity: 0.6;
 }
+
+/* ---- GOAL CARDS ---- */
+.goal-card {
+    border-radius: 12px;
+    padding: 18px;
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+.goal-progress-text {
+    font-size: 14px;
+    font-weight: 500;
+}
 </style>
 
 <div class="container mt-4">
 
     <h2 class="fw-bold mb-4">Your Financial Dashboard</h2>
+
+    <!-- ===== NOTIFICATIONS ===== -->
+    {% if goal_alert %}
+    <div class="alert alert-success shadow-sm">
+        {{ goal_alert }}
+    </div>
+    {% endif %}
+
+    <!-- ===== ACTION BUTTONS ===== -->
+    <div class="mb-4 d-flex gap-2">
+        <a href="/transactions/add/" class="btn btn-primary">➕ Add Transaction</a>
+        <a href="/goal/" class="btn btn-outline-primary">🎯 Manage Goals</a>
+    </div>
 
     <!-- ===== STATS CARDS ===== -->
     <div class="row g-4 mb-4">
@@ -65,22 +91,40 @@
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!-- ===== SAVINGS GOAL ===== -->
-    {% if goal %}
-    <div class="card shadow-sm border-0 mb-4">
-        <div class="card-body">
-            <h5 class="fw-bold">Savings Goal</h5>
-            <p>{{ goal.name }} — Target: ${{ goal.target_amount }}</p>
-            <div class="progress" style="height: 20px;">
-                <div class="progress-bar bg-success" role="progressbar"
-                     style="width: {{ goal.progress_percent }}%;">
-                    {{ goal.progress_percent }}%
+    <!-- ===== GOALS SECTION ===== -->
+    {% if goals %}
+    <h4 class="fw-bold mb-3">Your Goals</h4>
+
+    <div class="row g-4 mb-4">
+        {% for g in goals %}
+        <div class="col-md-6">
+            <div class="goal-card">
+                <h5 class="fw-bold">{{ g.name }} <small class="text-muted">({{ g.goal_type }})</small></h5>
+
+                <p class="mb-2 goal-progress-text">
+                    ${{ g.current_amount }} of ${{ g.target_amount }}
+                </p>
+
+                <div class="progress" style="height: 20px;">
+                    <div class="progress-bar bg-success"
+                         role="progressbar"
+                         style="width: {{ g.progress_pct }}%;">
+                        {{ g.progress_pct|floatformat:0 }}%
+                    </div>
                 </div>
+
+                <p class="mt-2 text-muted">
+                    Remaining: ${{ g.amount_remaining|floatformat:2 }}
+                </p>
+
+                {% if g.deadline %}
+                <p class="text-muted">Deadline: {{ g.deadline }}</p>
+                {% endif %}
             </div>
         </div>
+        {% endfor %}
     </div>
     {% endif %}
 
@@ -123,7 +167,7 @@
                         <td>{{ tx.date }}</td>
                         <td>{{ tx.description }}</td>
 
-                        <!-- CATEGORY CELL (DROPDOWN VISUAL + EDITABLE) -->
+                        <!-- CATEGORY CELL -->
                         <td class="category-cell" data-id="{{ tx.id }}">
 
                             <span class="category-label">

@@ -39,20 +39,46 @@ class Transaction(models.Model):
 # Savings Goal Model
 # ============================
 class SavingsGoal(models.Model):
+    GOAL_TYPES = [
+        ("savings", "Savings Goal"),
+        ("payoff", "Debt Payoff Goal"),
+        ("expense", "Expense Goal"),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='goals')
-    name = models.CharField(max_length=64, default='Main Goal')
+    name = models.CharField(max_length=128)
+    goal_type = models.CharField(max_length=32, choices=GOAL_TYPES, default="savings")
+
     target_amount = models.DecimalField(max_digits=12, decimal_places=2)
-    current_savings = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    current_amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+
     deadline = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     @property
     def progress_pct(self):
-        if self.target_amount and self.target_amount != 0:
-            return float(self.current_savings / self.target_amount * 100)
-        return 0.0
+        if self.target_amount == 0:
+            return 0
+        return float(self.current_amount / self.target_amount * 100)
+
+    @property
+    def amount_remaining(self):
+        return float(self.target_amount - self.current_amount)
 
     def __str__(self):
-        return f"{self.name} ({self.progress_pct:.1f}%)"
+        return f"{self.name} - {self.progress_pct:.1f}%"
+
+#===============================
+#========= Goal History ========
+#===============================
+class GoalHistory(models.Model):
+    goal = models.ForeignKey(SavingsGoal, on_delete=models.CASCADE, related_name="history")
+    date = models.DateField(auto_now_add=True)
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.goal.name} - {self.date} - {self.amount}"
+
 
 #-------------------------------------
 # Bank Connection

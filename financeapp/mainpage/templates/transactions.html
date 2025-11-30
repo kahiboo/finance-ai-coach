@@ -29,6 +29,21 @@
     opacity: .5;
     font-size: 12px;
 }
+
+/* Strong Delete Button Styling */
+form .delete-btn {
+    color: #dc3545 !important;
+    font-weight: 600 !important;
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+form .delete-btn:hover {
+    text-decoration: underline !important;
+}
 </style>
 
 <div class="container mt-4">
@@ -68,54 +83,67 @@
 
             {% csrf_token %}
 
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Category</th>
-                        <th class="text-end">Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th class="text-end">Amount</th>
+            <th class="text-end">Actions</th>
+        </tr>
+    </thead>
 
-                {% for tx in transactions %}
-                    <tr>
-                        <td>{{ tx.date }}</td>
-                        <td>{{ tx.description }}</td>
+    <tbody>
+    {% for tx in transactions %}
+        <tr>
+            <td>{{ tx.date }}</td>
+            <td>{{ tx.description }}</td>
 
-                        <td class="category-cell" data-id="{{ tx.id }}">
+            <!-- CATEGORY CELL -->
+            <td class="category-cell" data-id="{{ tx.id }}">
+                <span class="category-label">
+                    {{ tx.category.name }}
+                    <span class="dropdown-arrow">⌄</span>
+                </span>
 
-                            <!-- Visible label -->
-                            <span class="category-label">
-                                {{ tx.category.name }}
-                                <span class="dropdown-arrow">⌄</span>
-                            </span>
+                <select class="category-select form-select mt-1" style="display:none;">
+                    {% for c in categories %}
+                        <option value="{{ c.id }}" {% if tx.category.id == c.id %}selected{% endif %}>
+                            {{ c.name }}
+                        </option>
+                    {% endfor %}
+                </select>
 
-                            <!-- Selector -->
-                            <select class="category-select form-select mt-1" style="display:none;">
-                                {% for c in categories %}
-                                    <option value="{{ c.id }}" {% if tx.category.id == c.id %}selected{% endif %}>
-                                        {{ c.name }}
-                                    </option>
-                                {% endfor %}
-                            </select>
+                <button class="btn btn-sm btn-primary mt-1 confirm-btn" style="display:none;">
+                    Save
+                </button>
+            </td>
 
-                            <!-- Confirm -->
-                            <button class="btn btn-sm btn-primary mt-1 confirm-btn" style="display:none;">
-                                Save
-                            </button>
-                        </td>
+            <!-- AMOUNT -->
+            <td class="text-end {% if tx.amount < 0 %}text-danger{% else %}text-success{% endif %}">
+                ${{ tx.amount }}
+            </td>
 
-                        <td class="text-end {% if tx.amount < 0 %}text-danger{% else %}text-success{% endif %}">
-                            ${{ tx.amount }}
-                        </td>
-                    </tr>
-                {% empty %}
-                    <tr><td colspan="4" class="text-center text-muted py-3">No transactions found.</td></tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            <!-- DELETE BUTTON -->
+            <td class="text-end">
+                <form action="{% url 'delete_transaction' tx.id %}" method="POST"
+                      class="d-inline" onsubmit="return confirm('Delete this transaction?');">
+                    {% csrf_token %}
+                    <button class="delete-btn">Delete</button>
+                </form>
+            </td>
+
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="5" class="text-center text-muted py-3">
+                No transactions found.
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
         </div>
     </div>
@@ -128,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 
+    // Clicking category label toggles edit mode
     document.querySelectorAll(".category-label").forEach(label => {
         label.addEventListener("click", function () {
             const cell = this.parentElement;
@@ -137,6 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Saving updated category
     document.querySelectorAll(".confirm-btn").forEach(btn => {
         btn.addEventListener("click", function () {
 

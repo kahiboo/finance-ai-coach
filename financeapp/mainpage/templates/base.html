@@ -4,15 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}Finance AI Coach{% endblock %}</title>
+
   {% load static %}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body class="bg-light">
 
-  <!-- Navbar -->
+  <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
+
       <a class="navbar-brand fw-bold" href="/">Finance AI Coach</a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -23,19 +28,62 @@
         <ul class="navbar-nav ms-auto">
 
           {% if user.is_authenticated %}
-          <!-- Navbar for logged-in users -->
-          <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'upload' %}">Upload Transactions</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'reports' %}">Reports</a></li>
-	  <li class="nav-item"><a class="nav-link" href="{% url 'transactions' %}">Transactions</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'categories' %}">Categories</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+
+          <!-- DASHBOARD -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+          </li>
+
+          <!-- TRANSACTIONS DROPDOWN -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+              Transactions
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+
+              <li><a class="dropdown-item" href="{% url 'transactions' %}">View Transactions</a></li>
+
+              <li><a class="dropdown-item" href="{% url 'add_transaction' %}">Add Transaction</a></li>
+
+              <li><a class="dropdown-item" href="{% url 'upload' %}">Upload CSV</a></li>
+
+            </ul>
+          </li>
+
+          <!-- GOALS DROPDOWN -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+              Goals
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="{% url 'goal' %}">Manage Goals</a></li>
+            </ul>
+          </li>
+
+          <!-- REPORTS -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'reports' %}">Reports</a>
+          </li>
+
+          <!-- CATEGORIES -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+          </li>
+
+          <!-- LOGOUT -->
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
+          </li>
 
           {% else %}
-          <!-- Navbar for guests -->
+
+          <!-- Public Links -->
           <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">Sign Up</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
+
           {% endif %}
 
         </ul>
@@ -43,71 +91,80 @@
     </div>
   </nav>
 
-  <!-- Page content -->
+
+  <!-- CONTENT WRAPPER -->
   <div class="container mt-4">
     {% block content %}{% endblock %}
   </div>
-<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
-<script>
-document.getElementById("connect-bank-btn").addEventListener("click", function () {
-    fetch("/plaid/create_link_token/")
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                alert("Error creating link token.");
-                return;
-            }
 
-            const handler = Plaid.create({
-                token: data.link_token,
-                onSuccess: function(public_token, metadata) {
 
-                    // Send token back to Django
-                    fetch("/plaid/exchange_public_token/", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                            "X-CSRFToken": getCookie("csrftoken")
-                        },
-                        body: "public_token=" + public_token
-                    })
-                    .then(res => res.json())
-                    .then(resp => {
-                        if (resp.status === "connected") {
-                            document.getElementById("connect-status").innerHTML =
-                                "<span class='text-success'>Bank connected successfully!</span>";
-                        } else {
-                            alert("Connection failed.");
-                        }
-                    });
-                },
-                onExit: function(err, metadata) {
-                    if (err != null) {
-                        console.error("Plaid error:", err);
-                    }
-                }
-            });
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 
-            handler.open();
-        });
-});
+  <script>
+  // BANK CONNECTION
+  const connectBtn = document.getElementById("connect-bank-btn");
+  if (connectBtn) {
+      connectBtn.addEventListener("click", function () {
+          fetch("/plaid/create_link_token/")
+              .then(response => response.json())
+              .then(data => {
+                  if (data.error) {
+                      alert("Error creating link token.");
+                      return;
+                  }
 
-// CSRF helper
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-        const cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + "=")) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-</script>
+                  const handler = Plaid.create({
+                      token: data.link_token,
+                      onSuccess: function(public_token, metadata) {
+
+                          fetch("/plaid/exchange_public_token/", {
+                              method: "POST",
+                              headers: {
+                                  "Content-Type": "application/x-www-form-urlencoded",
+                                  "X-CSRFToken": getCookie("csrftoken")
+                              },
+                              body: "public_token=" + public_token
+                          })
+                          .then(res => res.json())
+                          .then(resp => {
+                              if (resp.status === "connected") {
+                                  document.getElementById("connect-status").innerHTML =
+                                      "<span class='text-success'>Bank connected successfully!</span>";
+                              } else {
+                                  alert("Connection failed.");
+                              }
+                          });
+                      },
+                      onExit: function(err, metadata) {
+                          if (err != null) {
+                              console.error("Plaid error:", err);
+                          }
+                      }
+                  });
+
+                  handler.open();
+              });
+      });
+  }
+
+  // CSRF helper
+  function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+  </script>
 
 </body>
 </html>
